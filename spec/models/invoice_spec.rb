@@ -5,12 +5,27 @@ RSpec.describe Invoice, type: :model do
     it { should validate_presence_of(:status) }
   end
 
+    it 'is valid without a coupon' do
+      customer1 = Customer.create!(first_name: "John", last_name: "Smith")
+      invoice1 = customer1.invoices.create!(status: 2)
+      expect(invoice1).to be_valid
+    end
+# had to figure out how to test for this optional association
+    it 'can be associated with a coupon' do
+      merchant = Merchant.create!(name: "Test Merchant", status: "enabled")
+      coupon = merchant.coupons.create!(name: "big sale", code: "BOGO50", percent_off: 50, dollar_off: 0, active: true)
+      customer1 = Customer.create!(first_name: "John", last_name: "Smith")
+      invoice1 = coupon.invoices.create!(status: 2, customer: customer1)
+
+      expect(invoice1.coupon).to eq(coupon)
+    end
+
   describe "associations" do
     it { should belong_to :customer }
     it { should have_many :transactions }
     it { should have_many(:invoice_items) }
     it { should have_many(:items).through(:invoice_items) }
-    it { should have_many(:items).through(:invoice_items) }
+    it { should belong_to(:coupon).optional }
   end
 
   describe "enums" do
@@ -26,8 +41,8 @@ RSpec.describe Invoice, type: :model do
     end
   end
 
-  describe "methods" do 
-    it ".best_day" do 
+  describe "methods" do
+    it ".best_day" do
       merchant_1 = Merchant.create!(name: "Walmart")
       customer1 = Customer.create!(first_name: "John", last_name: "Smith")
       customer2 = Customer.create!(first_name: "Jane", last_name: "Sornes")
@@ -45,7 +60,7 @@ RSpec.describe Invoice, type: :model do
       invoice_item5 = invoice2.invoice_items.create!(item_id: item2.id, quantity: 1, unit_price: 3, status: 2)
       invoice_item6 = invoice2.invoice_items.create!(item_id: item3.id, quantity: 2, unit_price: 10, status: 2)
 
-      
+
       expect(Invoice.best_day.created_at.strftime("%m/%d/%y")).to eq("02/02/18")
     end
   end
