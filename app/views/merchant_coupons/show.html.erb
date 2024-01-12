@@ -17,3 +17,11 @@
     <%= form.submit "deactivate" %>
   <% end %>
 <% end%>
+
+<% if @merchant_coupon.active == false %>
+
+  <%= form_with url: "/merchants/#{@merchant.id}/coupons/#{@merchant_coupon.id}", method: :patch, local: true do |form| %>
+    <%= form.hidden_field :activate, value: "dctivate" %>
+    <%= form.submit "activate" %>
+  <% end %>
+<% end%>
