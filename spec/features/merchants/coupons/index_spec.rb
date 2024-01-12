@@ -75,7 +75,7 @@ RSpec.describe "merchant's coupons index", type: :feature do #US-1
     click_button "Create Coupon"
 
     expect(current_path).to eq("/merchants/#{merchant1.id}/coupons/new")
-    save_and_open_page
+
     expect(page).to have_content("Error: all fields are required or must be unique.") #need to come back to this
   end
   # * Sad Paths to consider:
