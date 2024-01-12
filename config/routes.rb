@@ -8,9 +8,10 @@ Rails.application.routes.draw do
     end
 
     resources :items, controller: 'merchant_items', except: [:destroy]
-    resources :invoices, controller:'merchant_invoices', only: [:index, :show, :update]
+    resources :invoices, controller: 'merchant_invoices', only: [:index, :show, :update]
+    resources :coupons, controller: 'merchant_coupons', only: [:index, :show]
   end
-#Admin
+  #Admin
   namespace :admin do
     root to: "dashboard#index"
     resources :merchants, except: [:destroy]
