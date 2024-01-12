@@ -40,6 +40,9 @@ class MerchantCouponsController < ApplicationController
         @merchant_coupon.update!(active: false)
         redirect_to "/merchants/#{@merchant_coupon.merchant_id}/coupons/#{@merchant_coupon.id}", notice: "update successful"
       end
+    elsif params[:commit] == "activate"
+      @merchant_coupon.update!(active: true)
+      redirect_to "/merchants/#{@merchant_coupon.merchant_id}/coupons/#{@merchant_coupon.id}", notice: "update successful"
     end
   end
 
