@@ -10,7 +10,7 @@ RSpec.describe Merchant, type: :model do
       coupon2 = merchant1.coupons.create!(name: "15 Dollars Off", code: "15BUCKS", percent_off: 0, dollar_off: 15, active: true)
       coupon3 = merchant1.coupons.create!(name: "15 Percent Off", code: "15PERCENT", percent_off: 15, dollar_off: 0, active: true)
       coupon4 = merchant1.coupons.create!(name: "25 Percent Off", code: "25PERCENT", percent_off: 25, dollar_off: 0, active: true)
-      coupon5 = merchant1.coupons.create!(name: "Buy 1 Get 3", code: "1GET3", percent_off: 15, dollar_off: 0, active: true)
+      coupon5 = merchant1.coupons.create!(name: "30% Off", code: "GET30%", percent_off: 30, dollar_off: 0, active: true)
       coupon6 = merchant1.coupons.create!(name: "50 Percent Off", code: "50PERCENT", percent_off: 50, dollar_off: 0, active: true)
 
       expect(merchant1).not_to be_valid
