@@ -1,5 +1,6 @@
 class Merchant < ApplicationRecord
   validates :name, presence: true
+  validate :validate_active_coupons_count
 
   has_many :items, dependent: :destroy
   has_many :invoices, through: :items
@@ -72,5 +73,13 @@ class Merchant < ApplicationRecord
     invoice.invoice_items.joins(:item)
       .where("items.merchant_id = #{self.id}")
       .sum("quantity * invoice_items.unit_price")
+  end
+
+  private
+
+  def validate_active_coupons_count #makes sure coupon creation is not valid if there are more than 5 active coupons
+    if coupons.where(active: true).count > 5
+      errors.add(:coupons, 'only 5 active coupons can be used at a time')
+    end
   end
 end
