@@ -3,7 +3,7 @@ class Coupon < ApplicationRecord
   validates :code, presence: true, uniqueness: true
   validates :percent_off, presence: true
   validates :dollar_off, presence: true
-  validates :active, presence: true
+  validates :active, inclusion: { in: [true, false] }# needed this to get update function to work in merchant_coupons_controller.
   validate :validate_active_coupons_limit, on: :create
 
   belongs_to :merchant
@@ -12,6 +12,10 @@ class Coupon < ApplicationRecord
 
   def times_used
     transactions.where(result: 0).count
+  end
+
+  def invoice_in_progress?
+    invoices.where(status: 0).count > 0
   end
 
   private
