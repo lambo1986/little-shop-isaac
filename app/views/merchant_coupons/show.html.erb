@@ -1,1 +1,11 @@
-<h1><%= @merchant_coupon.name %></h1>
+<h1>Coupon: <%= @merchant_coupon.name %></h1>
+
+<h3>
+  <ul>
+    <li>Code: <%= @merchant_coupon.code %></li>
+    <li>% Off: <%= @merchant_coupon.percent_off %></li>
+    <li>$ Off: <%= @merchant_coupon.dollar_off %></li>
+    <li>Active? <%= @merchant_coupon.active %></li>
+    <li>Times Used: <%= @merchant_coupon.times_used %></li>
+  </ul>
+</h3>  
