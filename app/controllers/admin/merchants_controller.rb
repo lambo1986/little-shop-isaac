@@ -3,7 +3,6 @@ class Admin::MerchantsController < ApplicationController
   def index
     @merchants = Merchant.all
     @top_5_merch = Merchant.top_five_merchants
-    # require 'pry'; binding.pry
   end
 
   def show
