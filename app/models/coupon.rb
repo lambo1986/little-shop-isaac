@@ -21,7 +21,7 @@ class Coupon < ApplicationRecord
   private
 
   def validate_active_coupons_limit #adds new error if the merchant has 5 active coupons
-    if merchant && merchant.coupons.where(active: true).count >= 5
+    if merchant && merchant.coupons.where(active: true).count >= 5 && active
       errors.add(:base, "Only 5 active coupons can be used at a time.")
     end
   end
