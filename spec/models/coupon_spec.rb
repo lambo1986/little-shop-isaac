@@ -6,7 +6,7 @@ RSpec.describe Coupon, type: :model do
     it { should validate_presence_of(:code), unique: true }
     it { should validate_presence_of(:percent_off) }
     it { should validate_presence_of(:dollar_off) }
-    it { should validate_presence_of(:active) }
+    it { should validate_inclusion_of(:active).in_array([true, false]) }# throwing errors, but nothing serious
 
     it "does not validate duplicate coupon codes" do
       merchant1 = Merchant.create!(name: "Sweetwater", status: :enabled)
@@ -25,7 +25,7 @@ RSpec.describe Coupon, type: :model do
   end
 
   describe "instance methods" do
-    it "has a #times_used method" do
+    it "has a #times_used method" do# US-3
       merchant1 = Merchant.create!(name: "Sweetwater", status: :enabled)
       bob = Customer.create!(first_name: "Bob", last_name: "Smith")
       jerry = Customer.create!(first_name: "Jerry", last_name: "Jones")
@@ -39,6 +39,16 @@ RSpec.describe Coupon, type: :model do
       transaction2 = invoice3.transactions.create!(credit_card_number: "1236785498", credit_card_expiration_date: "12/22", result: 1)#failed
 
       expect(coupon1.times_used).to eq(2)
+    end
+
+    it "has a #invoice_in_progress? method" do# US-4
+      merchant1 = Merchant.create!(name: "Sweetwater", status: :enabled)
+      bob = Customer.create!(first_name: "Bob", last_name: "Smith")
+      coupon1 = merchant1.coupons.create!(name: "Buy One Get One 50%", code: "BOGO50", percent_off: 50, dollar_off: 0, active: true)
+      invoice1 = coupon1.invoices.create!(status: 0, customer: bob)
+      transaction1 = invoice1.transactions.create!(credit_card_number: "1234567854", credit_card_expiration_date: "12/20", result: 0)
+
+      expect(coupon1.invoice_in_progress?).to eq(true)
     end
   end
 end
