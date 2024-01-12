@@ -80,11 +80,11 @@ RSpec.describe 'Admin Invoices Index', type: :feature do
     expect(page).to have_content(@inv_5.id)
     expect(page).to have_content(@inv_6.id)
     # Each id links to the admin invoice show page
-    expect(page).to have_link(@inv_1.id)
-    expect(page).to have_link(@inv_2.id)
-    expect(page).to have_link(@inv_3.id)
-    expect(page).to have_link(@inv_4.id)
-    expect(page).to have_link(@inv_5.id)
-    expect(page).to have_link(@inv_6.id)
+    expect(page).to have_link(@inv_1.id.to_s)
+    expect(page).to have_link(@inv_2.id.to_s)
+    expect(page).to have_link(@inv_3.id.to_s)
+    expect(page).to have_link(@inv_4.id.to_s)
+    expect(page).to have_link(@inv_5.id.to_s)
+    expect(page).to have_link(@inv_6.id.to_s)
   end
 end
