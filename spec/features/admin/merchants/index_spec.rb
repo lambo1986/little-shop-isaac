@@ -1,4 +1,3 @@
-
 require 'rails_helper'
 
 RSpec.describe 'Admin Merchants', type: :feature do
@@ -114,7 +113,7 @@ RSpec.describe 'Admin Merchants', type: :feature do
     expect(page).to have_button("disable")
     expect(page).to have_content("Status: Enabled")
   end
-    
+
   end
 
   # User 28
