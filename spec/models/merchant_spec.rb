@@ -4,17 +4,18 @@ RSpec.describe Merchant, type: :model do
   describe "validations" do
     it { should validate_presence_of(:name) }
 
-    it 'does not allow more than 5 active coupons' do
+    it "more than 5 active coupons for a merchant is not valid" do
       merchant1 = Merchant.create!(name: "Sweetwater", status: :enabled)
       coupon1 = merchant1.coupons.create!(name: "Buy One Get One 50%", code: "BOGO50", percent_off: 50, dollar_off: 0, active: true)
       coupon2 = merchant1.coupons.create!(name: "15 Dollars Off", code: "15BUCKS", percent_off: 0, dollar_off: 15, active: true)
       coupon3 = merchant1.coupons.create!(name: "15 Percent Off", code: "15PERCENT", percent_off: 15, dollar_off: 0, active: true)
       coupon4 = merchant1.coupons.create!(name: "25 Percent Off", code: "25PERCENT", percent_off: 25, dollar_off: 0, active: true)
       coupon5 = merchant1.coupons.create!(name: "30% Off", code: "GET30%", percent_off: 30, dollar_off: 0, active: true)
-      coupon6 = merchant1.coupons.create!(name: "50 Percent Off", code: "50PERCENT", percent_off: 50, dollar_off: 0, active: true)
+      coupon6 = merchant1.coupons.new(name: "50 Percent Off", code: "50PERCENT", percent_off: 50, dollar_off: 0, active: true)
+      coupon6.save
 
-      expect(merchant1).not_to be_valid
-      expect(merchant1.errors[:coupons]).to include("only 5 active coupons can be used at a time'")
+      expect(coupon6).not_to be_valid
+      expect(coupon6.errors[:base]).to include("Only 5 active coupons can be used at a time.")
     end
   end
 
