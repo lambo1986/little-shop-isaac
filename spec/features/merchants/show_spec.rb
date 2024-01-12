@@ -10,18 +10,17 @@ RSpec.describe "show page" do
   end
 
   it "displays the merchant name on the dashboard page" do
-
     visit "/merchants/#{@merchant_1.id}/dashboard"
 
     expect(page).to have_content(@merchant_1.name)
   end
 
-  it "has a link to the merchant items index, and a link to the merchant invoices index" do
-
+  it "has a link to the merchant items index, invoices index, and coupons index" do #US-1
     visit "/merchants/#{@merchant_1.id}/dashboard"
 
     expect(page).to have_link("Items")
     expect(page).to have_link("Invoices")
+    expect(page).to have_link("Coupons")
   end
 
   it "shows name of the top 5 customers based on largest number of successful purchases and their total number of orders" do
