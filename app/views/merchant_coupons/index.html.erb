@@ -2,12 +2,42 @@
 
 <h2><%= link_to "Create New Coupon", "/merchants/#{@merchant.id}/coupons/new" %>
 
-<h3><% @merchant_coupons.each do |coupon| %>
-  <p>Name: <%= link_to "#{coupon.name}", "/merchants/#{@merchant.id}/coupons/#{coupon.id}" %></p>
-  <ul>
-    <li>Code: <%= coupon.code %></li>
-    <li>% Off: <%= coupon.percent_off %></li>
-    <li>$ Off: <%= coupon.dollar_off %></li>
-    <li>Active? <%= coupon.active %></li>
-  </ul>
-<% end %></h3>  
+<section id="active-coupons">
+
+=================================================================================
+
+<h3>Active Coupons</h3>
+
+<h4><% @merchant_coupons.each do |coupon| %>
+  <% if coupon.active == true %>
+    <p>Name: <%= link_to "#{coupon.name}", "/merchants/#{@merchant.id}/coupons/#{coupon.id}" %></p>
+      <ul>
+        <li>Code: <%= coupon.code %></li>
+        <li>% Off: <%= coupon.percent_off %></li>
+        <li>$ Off: <%= coupon.dollar_off %></li>
+        <li>Active? <%= coupon.active %></li>
+      </ul>
+    <% end %>
+  <% end %></h4>
+</section>
+
+<section id="inactive-coupons">
+
+=================================================================================
+
+<h3>Inactive Coupons</h3>
+
+<h4><% @merchant_coupons.each do |coupon| %>
+  <% if coupon.active == false %>
+    <p>Name: <%= link_to "#{coupon.name}", "/merchants/#{@merchant.id}/coupons/#{coupon.id}" %></p>
+      <ul>
+        <li>Code: <%= coupon.code %></li>
+        <li>% Off: <%= coupon.percent_off %></li>
+        <li>$ Off: <%= coupon.dollar_off %></li>
+        <li>Active? <%= coupon.active %></li>
+      </ul>
+    <% end %>
+  <% end %></h4>
+</section>
+
+
