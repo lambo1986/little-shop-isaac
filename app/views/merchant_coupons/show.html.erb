@@ -8,4 +8,12 @@
     <li>Active? <%= @merchant_coupon.active %></li>
     <li>Times Used: <%= @merchant_coupon.times_used %></li>
   </ul>
-</h3>  
+</h3>
+
+<% if @merchant_coupon.active == true %>
+
+  <%= form_with url: "/merchants/#{@merchant.id}/coupons/#{@merchant_coupon.id}", method: :patch, local: true do |form| %>
+    <%= form.hidden_field :deactivate, value: "deactivate" %>
+    <%= form.submit "deactivate" %>
+  <% end %>
+<% end%>
