@@ -5,27 +5,27 @@ RSpec.describe Invoice, type: :model do
     it { should validate_presence_of(:status) }
   end
 
-    it 'is valid without a coupon' do
-      customer1 = Customer.create!(first_name: "John", last_name: "Smith")
-      invoice1 = customer1.invoices.create!(status: 2)
-      expect(invoice1).to be_valid
-    end
-# had to figure out how to test for this optional association
-    it 'can be associated with a coupon' do
-      merchant = Merchant.create!(name: "Test Merchant", status: "enabled")
-      coupon = merchant.coupons.create!(name: "big sale", code: "BOGO50", percent_off: 50, dollar_off: 0, active: true)
-      customer1 = Customer.create!(first_name: "John", last_name: "Smith")
-      invoice1 = coupon.invoices.create!(status: 2, customer: customer1)
-
-      expect(invoice1.coupon).to eq(coupon)
-    end
-
   describe "associations" do
     it { should belong_to :customer }
     it { should have_many :transactions }
     it { should have_many(:invoice_items) }
     it { should have_many(:items).through(:invoice_items) }
     it { should belong_to(:coupon).optional }
+
+    it 'is valid without a coupon' do #had to figure out how to test for this optional association
+      customer1 = Customer.create!(first_name: "John", last_name: "Smith")
+      invoice1 = customer1.invoices.create!(status: 2)
+      expect(invoice1).to be_valid
+    end
+
+    it 'can be associated with a coupon' do
+      merchant = Merchant.create!(name: "Test Merchant", status: "enabled")
+      customer1 = Customer.create!(first_name: "John", last_name: "Smith")
+      coupon = merchant.coupons.create!(name: "big sale", code: "BOGO50", percent_off: 50, dollar_off: 0, active: true)
+      invoice1 = coupon.invoices.create!(status: 2, customer: customer1)
+
+      expect(invoice1.coupon).to eq(coupon)
+    end
   end
 
   describe "enums" do
