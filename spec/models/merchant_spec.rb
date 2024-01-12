@@ -14,7 +14,7 @@ RSpec.describe Merchant, type: :model do
       coupon6 = merchant1.coupons.create!(name: "50 Percent Off", code: "50PERCENT", percent_off: 50, dollar_off: 0, active: true)
 
       expect(merchant1).not_to be_valid
-      expect(merchant1.errors[:coupons]).to include('only 5 active coupons can be used at a time')
+      expect(merchant1.errors[:coupons]).to include("only 5 active coupons can be used at a time'")
     end
   end
 
