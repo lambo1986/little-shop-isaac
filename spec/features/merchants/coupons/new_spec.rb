@@ -10,7 +10,7 @@ RSpec.describe "new merchant's coupon page", type: :feature do #US-2
     fill_in "coupon_code", with: "GET25%"
     fill_in "coupon_percent_off", with: 25
     fill_in "coupon_dollar_off", with: 0
-save_and_open_page
+
     click_button "Create Coupon"
 
     expect(current_path).to eq("/merchants/#{merchant1.id}/coupons")
