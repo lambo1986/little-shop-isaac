@@ -19,8 +19,14 @@ class MerchantCouponsController < ApplicationController
     if @coupon.save
       redirect_to "/merchants/#{@merchant.id}/coupons", notice: "Coupon was successfully created."
     else
+      if @coupon.errors[:code].include?("has already been taken")
+        flash[:alert] = "Unique coupon code required."
+      elsif @coupon.errors.messages.any? { |field, messages| messages.include?("can't be blank") }
+        flash[:alert] = "All fields are required."
+      elsif @coupon.errors.messages.any? { |field, messages| messages.include?("Only 5 active coupons can be used at a time.") }
+        flash[:alert] = "Only 5 active coupons can be used at a time."
+      end
       redirect_to "/merchants/#{@merchant.id}/coupons/new"
-      flash[:alert] = "Error: all fields are required or must be unique." #needs work
     end
   end
 
