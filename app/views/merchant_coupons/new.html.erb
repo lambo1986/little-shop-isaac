@@ -1,29 +1,16 @@
 <h1>New Coupon for <%= @merchant.name %>:</h1>
 
 <%= form_with model: [@merchant, Coupon.new], method: :post, local: true do |form| %>
-  <div>
     <%= form.label :name, "Coupon Name:" %>
     <%= form.text_field :name, id: "coupon_name" %>
-  </div>
-
-  <div>
+  
     <%= form.label :code, "Coupon Code:" %>
     <%= form.text_field :code, id: "coupon_code" %>
-  </div>
 
-  <div>
-    <%= form.label :amount, "Coupon Amount:" %>
-    <%= form.number_field :amount, id: "coupon_amount" %>
-  </div>
-
-  <div>
     <%= form.label :percent_off, "Percent Off:" %>
     <%= form.number_field :percent_off, id: "coupon_percent_off", class: 'coupon-amount-field' %>
 
     <%= form.label :dollar_off, "Dollar Off:" %>
     <%= form.number_field :dollar_off, id: "coupon_dollar_off", class: 'coupon-amount-field' %>
-
-  </div>
-
   <%= form.submit "Create Coupon", id: "create_coupon" %>
 <% end %>
