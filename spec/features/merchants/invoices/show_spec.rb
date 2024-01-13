@@ -116,4 +116,31 @@ RSpec.describe "merchant's invoice page", type: :feature do
     expect(current_path).to eq("/merchants/#{merchant_1.id}/invoices/#{invoice1.id}")
     expect(page).to have_content("Pending")
   end
+
+  it "shows the subtotal and grand total revenues and the coupon name as a link to it's show" do# US-7
+    merchant1 = Merchant.create!(name: "Walmart")
+    merchant2 = Merchant.create!(name: "Temu")
+    coupon1 = merchant1.coupons.create!(name: "Buy One Get One 50%", code: "BOGO50", percent_off: 50, dollar_off: 0, active: true)
+    item1 = merchant1.items.create!(name: "popcan", description: "fun", unit_price: 100)
+    item2 = merchant1.items.create!(name: "popper", description: "fun", unit_price: 156)
+    item3 = merchant2.items.create!(name: "copper", description: "money", unit_price: 243)
+    customer1 = Customer.create!(first_name: "John", last_name: "Smith")
+    invoice1 = coupon1.invoices.create!(status: 2, customer: customer1)#total $4.12 for merchant1
+    invoice_item1 = invoice1.invoice_items.create!(item_id: item1.id, quantity: 1, unit_price: 100, status: 0)#merchant1
+    invoice_item2 = invoice1.invoice_items.create!(item_id: item2.id, quantity: 2, unit_price: 156, status: 1)#merchant1
+    invoice_item3 = invoice1.invoice_items.create!(item_id: item3.id, quantity: 1, unit_price: 243, status: 2)#merchant2 (A coupon code from a Merchant only applies to Items sold by that Merchant)
+    transaction1 = invoice1.transactions.create!(credit_card_number: 1238567890123476, credit_card_expiration_date: "04/26", result: 0)
+
+    visit "/merchants/#{merchant1.id}/invoices/#{invoice1.id}"
+
+    expect(page).to have_content("Total Expected Revenue: $#{merchant1.total_invoice_revenue(invoice1).to_f / 100} (Before Coupons)")
+    expect(page).to have_content("Total Expected Revenue: $#{merchant1.revenue_after_coupons(invoice1).to_f / 100} (After Coupons)")
+    expect(page).to have_link(coupon1.name + " " + coupon1.code)
+  end
 end
+# 7. Merchant Invoice Show Page: Subtotal and Grand Total Revenues
+  # As a merchant
+  # When I visit one of my merchant invoice show pages
+  # I see the subtotal for my merchant from this invoice (that is, the total that does not include coupon discounts)
+  # And I see the grand total revenue after the discount was applied
+  # And I see the name and code of the coupon used as a link to that coupon's show page.
