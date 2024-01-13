@@ -6,7 +6,7 @@ RSpec.describe Coupon, type: :model do
     it { should validate_presence_of(:code), unique: true }
     it { should validate_presence_of(:percent_off) }
     it { should validate_presence_of(:dollar_off) }
-    it { should validate_inclusion_of(:active).in_array([true, false]) }# throwing errors, but nothing serious
+    it { should validate_inclusion_of(:active).in_array([true, false]) }# throwing errors from shoulda-matchers
 
     it "does not validate duplicate coupon codes" do
       merchant1 = Merchant.create!(name: "Sweetwater", status: :enabled)
