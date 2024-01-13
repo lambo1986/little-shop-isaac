@@ -7,11 +7,11 @@
     <%= form.label :code, "Coupon Code:" %>
     <%= form.text_field :code, id: "coupon_code" %>
 
-    <%= form.label :percent_off, "Percent Off:" %>
-    <%= form.number_field :percent_off, id: "coupon_percent_off", class: 'coupon-amount-field' %>
+    <%= form.label :amount, "Coupon Amount:" %>
+    <%= form.number_field :amount, id: "amount" %>
 
-    <%= form.label :dollar_off, "Dollar Off:" %>
-    <%= form.number_field :dollar_off, id: "coupon_dollar_off", class: 'coupon-amount-field' %>
+    <%= form.label :discount_type, "Discount Type:" %><!--updated form with drop menu to make sure one of the coupon types is always 0-->
+    <%= form.select :discount_type, ['Percent Off', 'Dollar Off'], {}, { id: "discount_type" } %>
 
-  <%= form.submit "Create Coupon", id: "create_coupon" %>
+    <%= form.submit "Create Coupon", id: "create_coupon" %>
 <% end %>
