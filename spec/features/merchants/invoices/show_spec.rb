@@ -138,9 +138,3 @@ RSpec.describe "merchant's invoice page", type: :feature do
     expect(page).to have_link(coupon1.name + " " + coupon1.code)
   end
 end
-# 7. Merchant Invoice Show Page: Subtotal and Grand Total Revenues
-  # As a merchant
-  # When I visit one of my merchant invoice show pages
-  # I see the subtotal for my merchant from this invoice (that is, the total that does not include coupon discounts)
-  # And I see the grand total revenue after the discount was applied
-  # And I see the name and code of the coupon used as a link to that coupon's show page.
