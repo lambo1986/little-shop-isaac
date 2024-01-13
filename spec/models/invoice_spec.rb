@@ -60,8 +60,43 @@ RSpec.describe Invoice, type: :model do
       invoice_item5 = invoice2.invoice_items.create!(item_id: item2.id, quantity: 1, unit_price: 3, status: 2)
       invoice_item6 = invoice2.invoice_items.create!(item_id: item3.id, quantity: 2, unit_price: 10, status: 2)
 
-
       expect(Invoice.best_day.created_at.strftime("%m/%d/%y")).to eq("02/02/18")
+    end
+  end
+
+  describe "instance methods" do
+    it "has a #total_revenue method" do#US-8 should have already been here?
+      merchant1 = Merchant.create!(name: "Walmart")
+      merchant2 = Merchant.create!(name: "Temu")
+      coupon1 = merchant1.coupons.create!(name: "Buy One Get One 50%", code: "BOGO50", percent_off: 50, dollar_off: 0, active: true)
+      item1 = merchant1.items.create!(name: "popcan", description: "fun", unit_price: 100)
+      item2 = merchant1.items.create!(name: "popper", description: "fun", unit_price: 156)
+      item3 = merchant2.items.create!(name: "copper", description: "money", unit_price: 243)
+      customer1 = Customer.create!(first_name: "John", last_name: "Smith")
+      invoice1 = coupon1.invoices.create!(status: 2, customer: customer1)
+      invoice_item1 = invoice1.invoice_items.create!(item_id: item1.id, quantity: 1, unit_price: 100, status: 0)
+      invoice_item2 = invoice1.invoice_items.create!(item_id: item2.id, quantity: 2, unit_price: 156, status: 1)
+      invoice_item3 = invoice1.invoice_items.create!(item_id: item3.id, quantity: 1, unit_price: 243, status: 2)
+      transaction1 = invoice1.transactions.create!(credit_card_number: 1238567890123476, credit_card_expiration_date: "04/26", result: 0)
+
+      expect(invoice1.total_revenue).to eq(655)
+    end
+
+    it "has a #invoice_revenue_after_coupons method" do#US-8
+      merchant1 = Merchant.create!(name: "Walmart")
+      merchant2 = Merchant.create!(name: "Temu")
+      coupon1 = merchant1.coupons.create!(name: "Buy One Get One 50%", code: "BOGO50", percent_off: 50, dollar_off: 0, active: true)
+      item1 = merchant1.items.create!(name: "popcan", description: "fun", unit_price: 100)
+      item2 = merchant1.items.create!(name: "popper", description: "fun", unit_price: 156)
+      item3 = merchant2.items.create!(name: "copper", description: "money", unit_price: 243)
+      customer1 = Customer.create!(first_name: "John", last_name: "Smith")
+      invoice1 = coupon1.invoices.create!(status: 2, customer: customer1)
+      invoice_item1 = invoice1.invoice_items.create!(item_id: item1.id, quantity: 1, unit_price: 100, status: 0)
+      invoice_item2 = invoice1.invoice_items.create!(item_id: item2.id, quantity: 2, unit_price: 156, status: 1)
+      invoice_item3 = invoice1.invoice_items.create!(item_id: item3.id, quantity: 1, unit_price: 243, status: 2)
+      transaction1 = invoice1.transactions.create!(credit_card_number: 1238567890123476, credit_card_expiration_date: "04/26", result: 0)
+
+      expect(invoice1.invoice_revenue_after_coupons).to eq(327.5)
     end
   end
 end
