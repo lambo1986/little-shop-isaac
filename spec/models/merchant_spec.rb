@@ -322,13 +322,4 @@ RSpec.describe Merchant, type: :model do
     expect(merchant2.revenue_after_coupons(invoice2)).to eq(998)
     expect(merchant2.revenue_after_coupons(invoice3)).to eq(0)
   end
-
-  it "has a #merchant_coupons method" do# US-7 Why did I make this method?
-    merchant1 = Merchant.create!(name: "Walmart")
-    coupon1 = merchant1.coupons.create!(name: "Buy One Get One 50%", code: "BOGO50", percent_off: 50, dollar_off: 0, active: true)
-    customer1 = Customer.create!(first_name: "John", last_name: "Smith")
-    invoice1 = coupon1.invoices.create!(status: 2, customer: customer1)
-
-    expect(merchant1.merchant_coupons).to include(coupon1)
-  end
 end
