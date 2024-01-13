@@ -66,12 +66,6 @@ RSpec.describe Merchant, type: :model do
     end
   end
 
-
-
-
-
-
-
   describe "instance methods" do
     it "has a #transactions method to find all transactions for a merchant" do
       merchant = Merchant.create!(name: "Test Merchant")
@@ -295,5 +289,31 @@ RSpec.describe Merchant, type: :model do
     transaction2 = invoice2.transactions.create!(credit_card_number: 1238567590123476, credit_card_expiration_date: "04/26", result: 0)
 
     expect(merchant_1.total_invoice_revenue(invoice1)).to eq(365)
+  end
+
+  it "has a #revenue_after_coupons method" do# US-7
+    merchant1 = Merchant.create!(name: "Walmart")
+    merchant2 = Merchant.create!(name: "Temu")
+    coupon1 = merchant1.coupons.create!(name: "Buy One Get One 50%", code: "BOGO50", percent_off: 50, dollar_off: 0, active: true)
+    item1 = merchant1.items.create!(name: "popcan", description: "fun", unit_price: 100)
+    item2 = merchant1.items.create!(name: "popper", description: "fun", unit_price: 156)
+    item3 = merchant2.items.create!(name: "copper", description: "money", unit_price: 243)
+    customer1 = Customer.create!(first_name: "John", last_name: "Smith")
+    invoice1 = coupon1.invoices.create!(status: 2, customer: customer1)#total $4.12 for merchant1
+    invoice_item1 = invoice1.invoice_items.create!(item_id: item1.id, quantity: 1, unit_price: 100, status: 0)#merchant1
+    invoice_item2 = invoice1.invoice_items.create!(item_id: item2.id, quantity: 2, unit_price: 156, status: 1)#merchant1
+    invoice_item3 = invoice1.invoice_items.create!(item_id: item3.id, quantity: 1, unit_price: 243, status: 2)#merchant2 (A coupon code from a Merchant only applies to Items sold by that Merchant)
+    transaction1 = invoice1.transactions.create!(credit_card_number: 1238567890123476, credit_card_expiration_date: "04/26", result: 0)
+
+    expect(merchant1.revenue_after_coupons(invoice1)).to eq(206)
+  end
+
+  it "has a #merchant_coupons method" do# US-7
+    merchant1 = Merchant.create!(name: "Walmart")
+    coupon1 = merchant1.coupons.create!(name: "Buy One Get One 50%", code: "BOGO50", percent_off: 50, dollar_off: 0, active: true)
+    customer1 = Customer.create!(first_name: "John", last_name: "Smith")
+    invoice1 = coupon1.invoices.create!(status: 2, customer: customer1)#total $4.12 for merchant1
+
+    expect(merchant1.merchant_coupons).to include(coupon1)
   end
 end

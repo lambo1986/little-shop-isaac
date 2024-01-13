@@ -73,4 +73,19 @@ class Merchant < ApplicationRecord
       .where("items.merchant_id = #{self.id}")
       .sum("quantity * invoice_items.unit_price")
   end
+
+  def revenue_after_coupons(invoice)
+    @coupon = Coupon.find_by(id: invoice.coupon_id)
+    if @coupon
+      if @coupon.dollar_off == 0 && @coupon.percent_off > 0
+        total_invoice_revenue(invoice) * (@coupon.percent_off.to_f / 100)
+      elsif @coupon.percent_off == 0 && @coupon.dollar_off > 0
+        total_invoice_revenue(invoice) - (@coupon.dollar_off)
+      end
+    end
+  end
+
+  def merchant_coupons
+    coupons
+  end
 end
