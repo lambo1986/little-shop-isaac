@@ -77,17 +77,13 @@ class Merchant < ApplicationRecord
   def revenue_after_coupons(invoice)#US-7
     @coupon = Coupon.find_by(id: invoice.coupon_id)
     if @coupon#check for nil
-      if @coupon.dollar_off == 0 && @coupon.percent_off > 0
+      if @coupon.dollar_off == 0
         total_invoice_revenue(invoice) * (@coupon.percent_off.to_f / 100)
-      elsif @coupon.percent_off == 0 && @coupon.dollar_off > 0
+      elsif @coupon.percent_off == 0
         total = total_invoice_revenue(invoice) - (@coupon.dollar_off * 100)
         total = 0 if total < 0#make sure it doesn't go negative
         total
       end
     end
-  end
-
-  def merchant_coupons
-    coupons
   end
 end
