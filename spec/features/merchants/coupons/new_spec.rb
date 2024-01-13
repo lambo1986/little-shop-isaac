@@ -8,8 +8,8 @@ RSpec.describe "new merchant's coupon page", type: :feature do #US-2
 
     fill_in "coupon_name", with: "25% Off"
     fill_in "coupon_code", with: "GET25%"
-    fill_in "coupon_percent_off", with: 25
-    fill_in "coupon_dollar_off", with: 0
+    fill_in "amount", with: 25
+    select "Percent Off", from: "discount_type"
 
     click_button "Create Coupon"
 
@@ -30,8 +30,8 @@ RSpec.describe "new merchant's coupon page", type: :feature do #US-2
 
     fill_in "coupon_name", with: "25% Off"
     fill_in "coupon_code", with: ""
-    fill_in "coupon_percent_off", with: 25
-    fill_in "coupon_dollar_off", with: 0
+    fill_in "amount", with: 25
+    select "Percent Off", from: "discount_type"
 
     click_button "Create Coupon"
 
@@ -47,8 +47,8 @@ RSpec.describe "new merchant's coupon page", type: :feature do #US-2
 
     fill_in "coupon_name", with: "Buy One Get One 50%"
     fill_in "coupon_code", with: "BOGO50"
-    fill_in "coupon_percent_off", with: 50
-    fill_in "coupon_dollar_off", with: 0
+    fill_in "amount", with: 50
+    select "Percent Off", from: "discount_type"
 
     click_button "Create Coupon"
 
@@ -68,8 +68,8 @@ RSpec.describe "new merchant's coupon page", type: :feature do #US-2
 
     fill_in "coupon_name", with: "Free!!!"
     fill_in "coupon_code", with: "TAKE100"
-    fill_in "coupon_percent_off", with: 100
-    fill_in "coupon_dollar_off", with: 0
+    fill_in "amount", with: 100
+    select "Dollar Off", from: "discount_type"
 
     click_button "Create Coupon"
 
