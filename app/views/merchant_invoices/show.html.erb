@@ -27,10 +27,10 @@
 </h2>
 
 <h1>Revenue Expected Before And After Coupons</h1>
-<h3><%= "Total Expected Revenue: $#{(@merchant.total_invoice_revenue(@invoice).to_f / 100).round(2)} (Before Coupons)"%></h3>
-<h3><%= "Total Expected Revenue: $#{(@merchant.revenue_after_coupons(@invoice).to_f / 100).round(2)} (After Coupons)"%></h3>
+<h3><%= "Total Expected Revenue: #{number_to_currency(@merchant.total_invoice_revenue(@invoice).to_f / 100)} (Before Coupons)"%></h3>
+<h3><%= "Total Expected Revenue: #{number_to_currency(@merchant.revenue_after_coupons(@invoice).to_f / 100)} (After Coupons)"%></h3>
 
 <% if @coupon.present? %> <!-- US-7 not sure why I needed this -->
-  <h4><%= link_to "#{@coupon.name} #{@coupon.code}", merchant_coupon_path(@merchant, @coupon) %></h4>
+  <h4><%= link_to "#{@coupon.name} / #{@coupon.code}", merchant_coupon_path(@merchant, @coupon) %></h4>
 <% end %>
 
