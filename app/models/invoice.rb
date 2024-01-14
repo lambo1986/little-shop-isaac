@@ -34,8 +34,7 @@ class Invoice < ApplicationRecord
       invoice_coupon_items_total_price = invoice_coupon_items.map { |item| item.unit_price * item.quantity }.sum
       invoice_non_coupon_items_total_price = invoice_non_coupon_items.map { |item| item.unit_price * item.quantity }.sum
       if coupon.percent_off > 0
-        total = (invoice_coupon_items_total_price * (coupon.percent_off.to_f / 100)) + invoice_non_coupon_items_total_price
-        total
+        (invoice_coupon_items_total_price * (coupon.percent_off.to_f / 100)) + invoice_non_coupon_items_total_price
       elsif coupon.dollar_off > 0
         total = total_revenue - (coupon.dollar_off.to_f * 100)#make sure dollar_off applies to all invoice_items
         total = 0 if total < 0#make sure it doesn't go negative
