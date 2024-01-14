@@ -81,7 +81,7 @@ RSpec.describe Invoice, type: :model do
 
       expect(invoice1.total_revenue).to eq(655)
     end
-    
+
     describe "#invoice_revenue_after_coupons method" do#US-8
       it "calculates based on percent_off" do#US-8
         merchant1 = Merchant.create!(name: "Walmart")
