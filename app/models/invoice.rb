@@ -26,13 +26,17 @@ class Invoice < ApplicationRecord
   def invoice_revenue_after_coupons#US-8 adapted from merchant method
     @coupon = Coupon.find_by(id: self.coupon_id)
     if @coupon#check for nil
-        if @coupon.dollar_off == 0
-          self.total_revenue * (@coupon.percent_off.to_f / 100)
-      elsif @coupon.percent_off == 0
-          total = self.total_revenue - (@coupon.dollar_off * 100)
+        if @coupon.percent_off > 0
+          total_revenue * (@coupon.percent_off.to_f / 100)
+      elsif @coupon.dollar_off > 0
+          total = total_revenue - (@coupon.dollar_off * 100)
           total = 0 if total < 0#make sure it doesn't go negative
           total
+      elsif @coupon.percent_off == 0 && @coupon.dollar_off == 0
+        total_revenue
       end
+    else
+      total_revenue
     end
   end
 end
