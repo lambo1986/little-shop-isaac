@@ -26,8 +26,8 @@
 <% end %>
 
 <h1>Invoice Revenue Expected Before And After Coupons</h1>
-<h3><%= "Total Invoice Revenue: $#{(@invoice.total_revenue.to_f / 100).round(2)} (Before Coupons)"%></h3>
-<h3><%= "Total Invoice Revenue: $#{(@invoice.invoice_revenue_after_coupons.to_f / 100).round(2)} (After Coupons)"%></h3>
+<h3><%= "Total Invoice Revenue: #{number_to_currency(@invoice.total_revenue.to_f / 100)} (Before Coupons)"%></h3>
+<h3><%= "Total Invoice Revenue: #{number_to_currency(@invoice.invoice_revenue_after_coupons.to_f / 100)} (After Coupons)"%></h3>
 
 <h2><% if @invoice.coupon.present? %>
   <ul>

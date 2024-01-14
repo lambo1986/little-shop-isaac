@@ -91,7 +91,7 @@ RSpec.describe "merchant's invoice page", type: :feature do
 
     expect(current_path).to eq("/merchants/#{merchant_1.id}/invoices/#{invoice1.id}")
 
-    expect(page).to have_content("Total Expected Revenue: $#{merchant_1.total_invoice_revenue(invoice1).to_f / 100}") #365
+    expect(page).to have_content("Total Expected Revenue: $3.65") #365
   end
 
   it "the invoice item status is a select box and can change the invoice_items status" do
@@ -133,8 +133,8 @@ RSpec.describe "merchant's invoice page", type: :feature do
 
     visit "/merchants/#{merchant1.id}/invoices/#{invoice1.id}"
 
-    expect(page).to have_content("Total Expected Revenue: $#{merchant1.total_invoice_revenue(invoice1).to_f / 100} (Before Coupons)")
-    expect(page).to have_content("Total Expected Revenue: $#{merchant1.revenue_after_coupons(invoice1).to_f / 100} (After Coupons)")
-    expect(page).to have_link(coupon1.name + " " + coupon1.code)
+    expect(page).to have_content("Total Expected Revenue: $4.12 (Before Coupons)")
+    expect(page).to have_content("Total Expected Revenue: $2.06 (After Coupons)")
+    expect(page).to have_link(coupon1.name + " / " + coupon1.code)
   end
 end
