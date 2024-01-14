@@ -316,10 +316,10 @@ RSpec.describe Merchant, type: :model do
     transaction3 = invoice2.transactions.create!(credit_card_number: 7678564565323424, credit_card_expiration_date: "03/23", result: 0)
 
     expect(merchant1.revenue_after_coupons(invoice1)).to eq(206)
-    expect(merchant1.revenue_after_coupons(invoice2)).to eq(0)
-    expect(merchant1.revenue_after_coupons(invoice3)).to eq(0)
+    expect(merchant1.revenue_after_coupons(invoice2)).to eq(0.0)
+    expect(merchant1.revenue_after_coupons(invoice3)).to eq(0.0)
     expect(merchant2.revenue_after_coupons(invoice1)).to eq(121.5)
     expect(merchant2.revenue_after_coupons(invoice2)).to eq(998)
-    expect(merchant2.revenue_after_coupons(invoice3)).to eq(0)
+    expect(merchant2.revenue_after_coupons(invoice3)).to eq(0.0)
   end
 end
