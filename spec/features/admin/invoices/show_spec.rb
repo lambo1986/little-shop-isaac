@@ -145,7 +145,7 @@ RSpec.describe 'Admin Show Spec', type: :feature do
       expect(page).to have_content(coupon1.code)
     end
   end
-end # 8. Admin Invoice Show Page: Subtotal and Grand Total Revenues
+end # US-8. Admin Invoice Show Page: Subtotal and Grand Total Revenues
     # As an admin
     # When I visit one of my admin invoice show pages
     # I see the name and code of the coupon that was used (if there was a coupon applied)
