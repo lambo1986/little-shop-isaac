@@ -140,7 +140,7 @@ RSpec.describe 'Admin Show Spec', type: :feature do
 
       expect(page).to have_content("Invoice Revenue Expected Before And After Coupons")
       expect(page).to have_content("Total Invoice Revenue: $6.55 (Before Coupons)")#should be 655
-      expect(page).to have_content("Total Invoice Revenue: $3.28 (After Coupons)")#should be 449
+      expect(page).to have_content("Total Invoice Revenue: $4.49 (After Coupons)")#should be 449
       expect(page).to have_content(coupon1.name)
       expect(page).to have_content(coupon1.code)
     end
