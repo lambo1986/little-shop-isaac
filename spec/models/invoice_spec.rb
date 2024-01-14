@@ -81,22 +81,74 @@ RSpec.describe Invoice, type: :model do
 
       expect(invoice1.total_revenue).to eq(655)
     end
+    
+    describe "#invoice_revenue_after_coupons method" do#US-8
+      it "calculates based on percent_off" do#US-8
+        merchant1 = Merchant.create!(name: "Walmart")
+        merchant2 = Merchant.create!(name: "Temu")
+        coupon1 = merchant1.coupons.create!(name: "Buy One Get One 50%", code: "BOGO50", percent_off: 50, dollar_off: 0, active: true)
+        item1 = merchant1.items.create!(name: "popcan", description: "fun", unit_price: 100)
+        item2 = merchant1.items.create!(name: "popper", description: "fun", unit_price: 156)
+        item3 = merchant2.items.create!(name: "copper", description: "money", unit_price: 243)#shouldn't recieve discount
+        customer1 = Customer.create!(first_name: "John", last_name: "Smith")
+        invoice1 = coupon1.invoices.create!(status: 2, customer: customer1)
+        invoice_item1 = invoice1.invoice_items.create!(item_id: item1.id, quantity: 1, unit_price: 100, status: 0)
+        invoice_item2 = invoice1.invoice_items.create!(item_id: item2.id, quantity: 2, unit_price: 156, status: 1)
+        invoice_item3 = invoice1.invoice_items.create!(item_id: item3.id, quantity: 1, unit_price: 243, status: 2)
+        transaction1 = invoice1.transactions.create!(credit_card_number: 1238567890123476, credit_card_expiration_date: "04/26", result: 0)
 
-    it "has a #invoice_revenue_after_coupons method" do#US-8
-      merchant1 = Merchant.create!(name: "Walmart")
-      merchant2 = Merchant.create!(name: "Temu")
-      coupon1 = merchant1.coupons.create!(name: "Buy One Get One 50%", code: "BOGO50", percent_off: 50, dollar_off: 0, active: true)
-      item1 = merchant1.items.create!(name: "popcan", description: "fun", unit_price: 100)
-      item2 = merchant1.items.create!(name: "popper", description: "fun", unit_price: 156)
-      item3 = merchant2.items.create!(name: "copper", description: "money", unit_price: 243)#shouldn't recieve discount
-      customer1 = Customer.create!(first_name: "John", last_name: "Smith")
-      invoice1 = coupon1.invoices.create!(status: 2, customer: customer1)
-      invoice_item1 = invoice1.invoice_items.create!(item_id: item1.id, quantity: 1, unit_price: 100, status: 0)
-      invoice_item2 = invoice1.invoice_items.create!(item_id: item2.id, quantity: 2, unit_price: 156, status: 1)
-      invoice_item3 = invoice1.invoice_items.create!(item_id: item3.id, quantity: 1, unit_price: 243, status: 2)
-      transaction1 = invoice1.transactions.create!(credit_card_number: 1238567890123476, credit_card_expiration_date: "04/26", result: 0)
+        expect(invoice1.invoice_revenue_after_coupons).to eq(327.5)#should be 449
+      end
 
-      expect(invoice1.invoice_revenue_after_coupons).to eq(327.5)#should be 449
+      it "calculates based on dollar_off" do#US-8
+        merchant1 = Merchant.create!(name: "Walmart")
+        merchant2 = Merchant.create!(name: "Temu")
+        coupon1 = merchant1.coupons.create!(name: "50 Bucks Off", code: "50OFF", percent_off: 0, dollar_off: 50, active: true)
+        item1 = merchant1.items.create!(name: "popcan", description: "fun", unit_price: 100)
+        item2 = merchant1.items.create!(name: "popper", description: "fun", unit_price: 156)
+        item3 = merchant2.items.create!(name: "copper", description: "money", unit_price: 243)#shouldn't recieve discount
+        customer1 = Customer.create!(first_name: "John", last_name: "Smith")
+        invoice1 = coupon1.invoices.create!(status: 2, customer: customer1)
+        invoice_item1 = invoice1.invoice_items.create!(item_id: item1.id, quantity: 1, unit_price: 100, status: 0)
+        invoice_item2 = invoice1.invoice_items.create!(item_id: item2.id, quantity: 2, unit_price: 156, status: 1)
+        invoice_item3 = invoice1.invoice_items.create!(item_id: item3.id, quantity: 1, unit_price: 243, status: 2)
+        transaction1 = invoice1.transactions.create!(credit_card_number: 1238567890123476, credit_card_expiration_date: "04/26", result: 0)
+
+        expect(invoice1.invoice_revenue_after_coupons).to eq(0)
+      end
+
+      it "calculates based on nothing off" do#US-8
+        merchant1 = Merchant.create!(name: "Walmart")
+        merchant2 = Merchant.create!(name: "Temu")
+        coupon1 = merchant1.coupons.create!(name: "No Deal", code: "ZEROOFF", percent_off: 0, dollar_off: 0, active: true)
+        item1 = merchant1.items.create!(name: "popcan", description: "fun", unit_price: 100)
+        item2 = merchant1.items.create!(name: "popper", description: "fun", unit_price: 156)
+        item3 = merchant2.items.create!(name: "copper", description: "money", unit_price: 243)#shouldn't recieve discount
+        customer1 = Customer.create!(first_name: "John", last_name: "Smith")
+        invoice1 = coupon1.invoices.create!(status: 2, customer: customer1)
+        invoice_item1 = invoice1.invoice_items.create!(item_id: item1.id, quantity: 1, unit_price: 100, status: 0)
+        invoice_item2 = invoice1.invoice_items.create!(item_id: item2.id, quantity: 2, unit_price: 156, status: 1)
+        invoice_item3 = invoice1.invoice_items.create!(item_id: item3.id, quantity: 1, unit_price: 243, status: 2)
+        transaction1 = invoice1.transactions.create!(credit_card_number: 1238567890123476, credit_card_expiration_date: "04/26", result: 0)
+
+        expect(invoice1.invoice_revenue_after_coupons).to eq(655)
+      end
+
+      it "calculates based on nil" do#US-8
+        merchant1 = Merchant.create!(name: "Walmart")
+        merchant2 = Merchant.create!(name: "Temu")
+        item1 = merchant1.items.create!(name: "popcan", description: "fun", unit_price: 100)
+        item2 = merchant1.items.create!(name: "popper", description: "fun", unit_price: 156)
+        item3 = merchant2.items.create!(name: "copper", description: "money", unit_price: 243)#shouldn't recieve discount
+        customer1 = Customer.create!(first_name: "John", last_name: "Smith")
+        invoice1 = customer1.invoices.create!(status: 2)
+        invoice_item1 = invoice1.invoice_items.create!(item_id: item1.id, quantity: 1, unit_price: 100, status: 0)
+        invoice_item2 = invoice1.invoice_items.create!(item_id: item2.id, quantity: 2, unit_price: 156, status: 1)
+        invoice_item3 = invoice1.invoice_items.create!(item_id: item3.id, quantity: 1, unit_price: 243, status: 2)
+        transaction1 = invoice1.transactions.create!(credit_card_number: 1238567890123476, credit_card_expiration_date: "04/26", result: 0)
+
+        expect(invoice1.invoice_revenue_after_coupons).to eq(655)
+      end
     end
   end
 end
