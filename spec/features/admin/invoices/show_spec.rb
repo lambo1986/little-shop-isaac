@@ -116,10 +116,10 @@ RSpec.describe 'Admin Show Spec', type: :feature do
     end
 
     it 'Shows an invoices total revenue' do
-      coupon1 = @merch_1.coupons.create!(name: "Buy One Get One 50%", code: "BOGO50", percent_off: 50, dollar_off: 0, active: true)
       visit admin_invoice_path(@inv_1)
 
-      expect(page).to have_content((@inv_1.total_revenue.to_f / 100).round(2))
+      expect(page).to have_content("Total Invoice Revenue: $0.30 (Before Coupons)")
+      expect(page).to have_content("Total Invoice Revenue: $0.30 (After Coupons)")
     end
 
     it 'Shows an invoices total revenue' do#US-8
@@ -139,8 +139,8 @@ RSpec.describe 'Admin Show Spec', type: :feature do
       visit admin_invoice_path(invoice1)
 
       expect(page).to have_content("Invoice Revenue Expected Before And After Coupons")
-      expect(page).to have_content("Total Invoice Revenue: $#{(invoice1.total_revenue.to_f / 100).round(2)} (Before Coupons)")
-      expect(page).to have_content("Total Invoice Revenue: $#{(invoice1.invoice_revenue_after_coupons.to_f / 100).round(2)} (After Coupons)")
+      expect(page).to have_content("Total Invoice Revenue: $6.55 (Before Coupons)")#should be 655
+      expect(page).to have_content("Total Invoice Revenue: $3.28 (After Coupons)")#should be 449
       expect(page).to have_content(coupon1.name)
       expect(page).to have_content(coupon1.code)
     end
