@@ -76,7 +76,7 @@ class Merchant < ApplicationRecord
 
   def revenue_after_coupons(invoice)#US-7
     @coupon = Coupon.find_by(id: invoice.coupon_id)
-    if @coupon#check for nil
+    if @coupon && @coupon.active#check for nil and active
       if @coupon.percent_off > 0
         total_invoice_revenue(invoice) * (@coupon.percent_off.to_f / 100)
       elsif @coupon.dollar_off > 0
