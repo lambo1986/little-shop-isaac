@@ -5,13 +5,15 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
-Customer.destroy_all
-Merchant.destroy_all
-Invoice.destroy_all
-Item.destroy_all
-Transaction.destroy_all
-InvoiceItem.destroy_all
-Coupon.destroy_all
+if Rails.env.development? || Rails.env.test?
+  
+  InvoiceItem.destroy_all
+  Transaction.destroy_all
+  Invoice.destroy_all
+  Coupon.destroy_all
+  Item.destroy_all
+  Merchant.destroy_all
+  Customer.destroy_all
 
 merchant1 = Merchant.create!(name: "Walmart")
 merchant2 = Merchant.create!(name: "Temu")
