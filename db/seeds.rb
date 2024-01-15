@@ -7,13 +7,14 @@
 #   Character.create(name: "Luke", movie: movies.first)
 if Rails.env.development? || Rails.env.test?
 
-  InvoiceItem.destroy_all
-  Transaction.destroy_all
-  Invoice.destroy_all
-  Coupon.destroy_all
-  Item.destroy_all
-  Merchant.destroy_all
-  Customer.destroy_all
+    InvoiceItem.destroy_all
+    Transaction.destroy_all
+    Invoice.destroy_all
+    Coupon.destroy_all
+    Item.destroy_all
+    Merchant.destroy_all
+    Customer.destroy_all
+end
 
   merchant1 = Merchant.create!(name: "Walmart")
   merchant2 = Merchant.create!(name: "Temu")
@@ -52,4 +53,3 @@ if Rails.env.development? || Rails.env.test?
   transaction3 = invoice3.transactions.create!(credit_card_number: 1238634646123476, credit_card_expiration_date: "04/26", result: 0)
   transaction4 = invoice4.transactions.create!(credit_card_number: 1238634646123476, credit_card_expiration_date: "04/26", result: 0)
   transaction5 = invoice5.transactions.create!(credit_card_number: 1238634646123476, credit_card_expiration_date: "04/26", result: 0)
-end
