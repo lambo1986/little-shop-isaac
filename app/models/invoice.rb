@@ -25,7 +25,7 @@ class Invoice < ApplicationRecord
 
   def invoice_revenue_after_coupons#US-8 adapted from merchant method
     coupon = Coupon.find_by(id: self.coupon_id)
-    if coupon#check for nil
+    if coupon && coupon.active#check for nil and active coupon
       coupon_items = Item.where(merchant_id: coupon.merchant_id)#make sure coupon only applies to items from the same merchant
       non_coupon_items = Item.where.not(merchant_id: coupon.merchant_id)#items from other merchants(no discount)
       invoice_items = InvoiceItem.where(invoice_id: self.id)
