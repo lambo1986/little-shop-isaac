@@ -64,7 +64,7 @@ end
   coupon6 = merchant1.coupons.create!(name: "34 % Off", code: "TAKE34", percent_off: 34, dollar_off: 0, active: true)
   coupon7 = merchant1.coupons.create!(name: "44 % Off", code: "TAKE44", percent_off: 44, dollar_off: 0, active: true)
   coupon8 = merchant2.coupons.create!(name: "57 % Off", code: "TAKE57", percent_off: 0, dollar_off: 57, active: true)
-  coupon9 = merchant2.coupons.create!(name: "66 % Off", code: "NOTTODAYSATAN", percent_off: , dollar_off: 66, active: true)
+  coupon9 = merchant2.coupons.create!(name: "66 % Off", code: "NOTTODAYSATAN", percent_off: 0, dollar_off: 66, active: true)
   coupon10 = merchant2.coupons.create!(name: "79 % Off", code: "TAKE79", percent_off: 70, dollar_off: 0, active: true)
   item1 = merchant1.items.create!(name: "popcan", description: "fun", unit_price: 100)
   item2 = merchant1.items.create!(name: "popper", description: "fun", unit_price: 156)
