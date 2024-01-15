@@ -22,7 +22,7 @@ end
   coupon12 = merchant4.coupons.create!(name: "77%", code: "LUCKY7", percent_off: 77, dollar_off: 0, active: true)
   coupon13 = merchant4.coupons.create!(name: "111 Bucks Off", code: "111OFF", percent_off: 0, dollar_off: 100, active: true)
   coupon14 = merchant3.coupons.create!(name: "Luck Threes", code: "33OFF", percent_off: 33, dollar_off: 0, active: true)
-  coupon15 = merchant3.coupons.create!(name: "25 % Off", code: "TAKE25", percent_off: 20, dollar_off: 0, active: true)
+  coupon15 = merchant3.coupons.create!(name: "26 % Off", code: "TAKE26", percent_off: 26, dollar_off: 0, active: true)
   item9 = merchant3.items.create!(name: "zoozoo", description: "music", unit_price: 111)
   item10 = merchant3.items.create!(name: "gummy donks", description: "candy", unit_price: 153)
   item11 = merchant4.items.create!(name: "Big Screen Calculator", description: "school", unit_price: 12343)
