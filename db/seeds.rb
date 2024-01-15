@@ -18,7 +18,7 @@ end
 
   merchant3 = Merchant.create!(name: "Sweetwater")
   merchant4 = Merchant.create!(name: "Etsy")
-  coupon11 = merchant3.coupons.create!(name: "Millionaire", code: "MILLION", percent_off: , dollar_off: 1000000, active: true)
+  coupon11 = merchant3.coupons.create!(name: "Millionaire", code: "MILLION", percent_off: 0, dollar_off: 1000000, active: true)
   coupon12 = merchant4.coupons.create!(name: "77%", code: "LUCKY7", percent_off: 77, dollar_off: 0, active: true)
   coupon13 = merchant4.coupons.create!(name: "111 Bucks Off", code: "111OFF", percent_off: 0, dollar_off: 100, active: true)
   coupon14 = merchant3.coupons.create!(name: "Luck Threes", code: "33OFF", percent_off: 33, dollar_off: 0, active: true)
