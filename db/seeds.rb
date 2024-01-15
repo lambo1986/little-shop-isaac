@@ -18,7 +18,7 @@ end
 
   merchant3 = Merchant.create!(name: "Sweetwater")
   merchant4 = Merchant.create!(name: "Etsy")
-  coupon11 = merchant3.coupons.create!(name: "Millionaire", code: "MILLION", percent_off: 0, dollar_off: 1000000, active: true)
+  coupon11 = merchant3.coupons.create!(name: "zillionaire", code: "ZILLION", percent_off: 0, dollar_off: 1000000000, active: true)
   coupon12 = merchant4.coupons.create!(name: "77%", code: "LUCKY7", percent_off: 77, dollar_off: 0, active: true)
   coupon13 = merchant4.coupons.create!(name: "111 Bucks Off", code: "111OFF", percent_off: 0, dollar_off: 100, active: true)
   coupon14 = merchant3.coupons.create!(name: "Luck Threes", code: "33OFF", percent_off: 33, dollar_off: 0, active: true)
@@ -59,7 +59,7 @@ end
   coupon1 = merchant1.coupons.create!(name: "80% Off", code: "TOTALLYAWESOME", percent_off: 80, dollar_off: 0, active: true)
   coupon4 = merchant1.coupons.create!(name: "Nothing Off", code: "NADA", percent_off: 0, dollar_off: 0, active: true)
   coupon3 = merchant2.coupons.create!(name: "100 Bucks Off", code: "100OFF!!", percent_off: 0, dollar_off: 100, active: true)
-  coupon2 = merchant2.coupons.create!(name: "15 Bucks Off", code: "15OFF", percent_off: 0, dollar_off: 15, active: true)
+  coupon2 = merchant2.coupons.create!(name: "13 Bucks Off", code: "13OFF", percent_off: 0, dollar_off: 15, active: true)
   coupon5 = merchant1.coupons.create!(name: "23 % Off", code: "TAKE23", percent_off: 23, dollar_off: 0, active: true)
   coupon6 = merchant1.coupons.create!(name: "34 % Off", code: "TAKE34", percent_off: 34, dollar_off: 0, active: true)
   coupon7 = merchant1.coupons.create!(name: "44 % Off", code: "TAKE44", percent_off: 44, dollar_off: 0, active: true)
